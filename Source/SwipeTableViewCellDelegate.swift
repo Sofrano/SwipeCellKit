@@ -23,7 +23,9 @@ public protocol SwipeTableViewCellDelegate: class {
      
      - returns: An array of `SwipeAction` objects representing the actions for the row. Each action you provide is used to create a button that the user can tap.  Returning `nil` will prevent swiping for the supplied orientation.
      */
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]?
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath,
+                   for orientation: SwipeActionsOrientation,
+                   cell: UITableViewCell) -> [SwipeAction]?
     
     /**
      Asks the delegate for the display options to be used while presenting the action buttons.

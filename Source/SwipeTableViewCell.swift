@@ -88,7 +88,6 @@ open class SwipeTableViewCell: UITableViewCell {
     /// :nodoc:
     override open func didMoveToSuperview() {
         super.didMoveToSuperview()
-        
         var view: UIView = self
         while let superview = view.superview {
             view = superview
@@ -123,14 +122,14 @@ open class SwipeTableViewCell: UITableViewCell {
      
         let point = convert(point, to: superview)
 
-        if !UIAccessibility.isVoiceOverRunning {
-            for cell in tableView?.swipeCells ?? [] {
-                if (cell.state == .left || cell.state == .right) && !cell.contains(point: point) {
-                    tableView?.hideSwipeCell()
-                    return false
-                }
-            }
-        }
+//        if !UIAccessibility.isVoiceOverRunning {
+//            for cell in tableView?.swipeCells ?? [] {
+//                if (cell.state == .left || cell.state == .right) && !cell.contains(point: point) {
+//                    //tableView?.hideSwipeCell()
+//                    return true
+//                }
+//            }
+//        }
         
         return contains(point: point)
     }
@@ -160,7 +159,7 @@ open class SwipeTableViewCell: UITableViewCell {
     
     @objc func handleTablePan(gesture: UIPanGestureRecognizer) {
         if gesture.state == .began {
-            hideSwipe(animated: true)
+            //hideSwipe(animated: true)
         }
     }
     
@@ -185,9 +184,15 @@ extension SwipeTableViewCell: SwipeControllerDelegate {
     }
     
     func swipeController(_ controller: SwipeController, editActionsForSwipeableFor orientation: SwipeActionsOrientation) -> [SwipeAction]? {
-        guard let tableView = tableView, let indexPath = tableView.indexPath(for: self) else { return nil }
+        guard let tableView = tableView,
+              let indexPath = tableView.indexPathForRow(at: self.center) else {
+                  return nil
+              }
         
-        return delegate?.tableView(tableView, editActionsForRowAt: indexPath, for: orientation)
+        return delegate?.tableView(tableView,
+                                   editActionsForRowAt: indexPath,
+                                   for: orientation,
+                                   cell: self)
     }
     
     func swipeController(_ controller: SwipeController, editActionsOptionsForSwipeableFor orientation: SwipeActionsOrientation) -> SwipeOptions {

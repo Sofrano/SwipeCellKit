@@ -176,13 +176,17 @@ class SwipeController: NSObject {
     
     @discardableResult
     func showActionsView(for orientation: SwipeActionsOrientation) -> Bool {
-        guard let actions = delegate?.swipeController(self, editActionsForSwipeableFor: orientation), actions.count > 0 else { return false }
-        guard let swipeable = self.swipeable else { return false }
+        guard let actions = delegate?.swipeController(self, editActionsForSwipeableFor: orientation), actions.count > 0 else {
+            return false
+            
+        }
+        guard let swipeable = self.swipeable else {
+            return false
+            
+        }
         
         originalLayoutMargins = swipeable.layoutMargins
-        
         configureActionsView(with: actions, for: orientation)
-        
         delegate?.swipeController(self, willBeginEditingSwipeableFor: orientation)
         
         return true
