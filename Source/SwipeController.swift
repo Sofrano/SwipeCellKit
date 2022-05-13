@@ -347,6 +347,7 @@ class SwipeController: NSObject {
 }
 
 extension SwipeController: UIGestureRecognizerDelegate {
+    
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == tapGestureRecognizer {
             if UIAccessibility.isVoiceOverRunning {
@@ -369,6 +370,13 @@ extension SwipeController: UIGestureRecognizerDelegate {
             return abs(translation.y) <= abs(translation.x)
         }
         
+        return true
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if ((gestureRecognizer as? UITapGestureRecognizer) != nil) {
+            return swipeable?.state != .center
+        }
         return true
     }
 }
